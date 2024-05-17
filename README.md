@@ -1,0 +1,2 @@
+# promtist
+AI promt generator
