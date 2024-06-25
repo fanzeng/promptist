@@ -1,10 +1,20 @@
 use std::error::Error;
 use std::fs;
+use std::io::Read;
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
+    let mut count = 0;
+    let s = String::from("----------------"); // Separator
+    println!("{} {} {}", s, String::from("Start"), s);
     for line in contents.lines() {
         println!("{line}");
+        count += line.chars().count();
+        if count > config.section_len.try_into().unwrap() {
+            std::io::stdin().read(&mut [0u8]).unwrap();
+            println!("{} {} {}", s, count, s);
+            count = 0;
+        }
     }
     Ok(())
 }
